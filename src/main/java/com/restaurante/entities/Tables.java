@@ -4,19 +4,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Table(name = "grupos")
-public class Grupo {
+@Table(name = "tb_tables")
+public class Tables {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
+    private Integer idTables;
 
-    // um grupo para varios sub-grupos
-
+    @NonNull
+    private String name;
 }

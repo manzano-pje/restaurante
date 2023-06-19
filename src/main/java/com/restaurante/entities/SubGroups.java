@@ -4,23 +4,20 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Table(name = "subgrupos")
-public class SubGrupo  {
+@Table(name = "tb_subGroups")
+public class SubGroups {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idSubGrupo;
-    private String nome;
+    private Integer idSubGroup;
 
+    private String name;
 
-
-    /// um sub-grupo para um produto
-    @OneToOne(cascade = {CascadeType.DETACH})
-    @JoinColumn(name = "idProduto")
-    private Produtos produtos;
+    private Integer idGroup;
 }
