@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -49,5 +50,11 @@ public class Users {
     @NonNull
     private String password;
 
+    /********
+     * relacionamentos
+     */
+
+    @OneToMany
+    List<Tables> tables;
 
 }

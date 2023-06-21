@@ -19,4 +19,16 @@ public class Tables {
 
     @NonNull
     private String name;
+
+    @NonNull
+    private boolean easy;
+
+    /********
+     * relacionamentos
+     */
+
+    @ManyToOne
+    private Users users;
+
+
 }

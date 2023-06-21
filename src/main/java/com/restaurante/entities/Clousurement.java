@@ -1,6 +1,5 @@
 package com.restaurante.entities;
 
-import com.restaurante.enums.PaymentMethods;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,15 +12,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "tb_payments")
-public class Payments {
+@Table(name = "tb_closure")
+public class Clousurement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idPayment;
-    private Integer idClousement;
-    private PaymentMethods PaymentMethod;
-    private BigDecimal price;
-    private LocalDateTime create;
+    private Integer idClousurement;
 
+    private Integer IdUser;
+    private Integer idTable;
+    private BigDecimal tableTotal;
+    private LocalDateTime create;
 }

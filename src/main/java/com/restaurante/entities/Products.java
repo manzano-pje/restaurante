@@ -31,7 +31,7 @@ public class Products {
 
     @NonNull
     @Enumerated(EnumType.STRING)
-    private UnitOfMeasurementEnum tipoDoProduto;
+    private UnitOfMeasurementEnum productType;
 
     @NonNull
     private BigDecimal price;
