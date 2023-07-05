@@ -51,10 +51,13 @@ public class Users {
     private String password;
 
     /********
-     * relacionamentos
+     * Relations
      */
 
-    @OneToMany
+    @OneToMany(mappedBy = "users")
+    private List<Clousurement> clousurements;
+
+    @OneToMany(mappedBy = "users")
     List<Tables> tables;
 
 }

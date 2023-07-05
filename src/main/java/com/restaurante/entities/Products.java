@@ -24,6 +24,7 @@ public class Products {
     private Integer idGroup;
 
     @NonNull
+    @Column(insertable=false, updatable=false)
     private Integer idSubGroup;
 
     @NonNull
@@ -41,7 +42,16 @@ public class Products {
 
     @NonNull Integer stock;
 
+    /********
+     * Relations
+     */
 
+    @ManyToOne
+    @JoinColumn(name = "idRequests")
+    private Requests requests;
 
+    @ManyToOne
+    @JoinColumn(name = "idSubGroup")
+    private SubGroups subGroups;
 
 }

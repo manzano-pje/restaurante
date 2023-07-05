@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -28,7 +30,13 @@ public class Tables {
      */
 
     @ManyToOne
+    @JoinColumn(name = "idTables", insertable=false, updatable=false)
     private Users users;
 
+    @OneToMany(mappedBy = "tables")
+    private List<Clousurement> clousurements;
+
+    @OneToMany(mappedBy = "tables")
+    private List<Requests> requests;
 
 }

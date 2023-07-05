@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -20,4 +22,16 @@ public class SubGroups {
     private String name;
 
     private Integer idGroup;
+
+    /********
+     * Relations
+     */
+
+    @OneToMany(mappedBy = "subGroups")
+    private List<Products> products;
+
+    @ManyToOne
+    @JoinColumn(name = "idGroup", insertable=false, updatable=false)
+    private Groups groups;
+
 }

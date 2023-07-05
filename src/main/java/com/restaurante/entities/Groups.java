@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +20,11 @@ public class Groups {
 
     @NonNull
     private String name;
+
+    /********
+     * Relatons
+     */
+
+    @OneToMany(mappedBy = "groups")
+    private List<SubGroups> subGroups;
 }

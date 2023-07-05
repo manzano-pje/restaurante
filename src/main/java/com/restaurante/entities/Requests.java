@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Entity
 @Data
@@ -16,4 +18,14 @@ public class Requests {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idRequests;
 
+    /********
+     * Relation
+     */
+
+    @ManyToOne
+    @JoinColumn(name = "idTables")
+    private Tables tables;
+
+    @OneToMany(mappedBy = "requests")
+    private List<Products> products;
 }

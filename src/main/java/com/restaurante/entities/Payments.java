@@ -19,9 +19,19 @@ public class Payments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPayment;
+
+    @Column(insertable=false, updatable=false)
     private Integer idClousement;
+
     private PaymentMethods PaymentMethod;
     private BigDecimal price;
-    private LocalDateTime create;
+    private LocalDateTime dtCreate;
 
+    /********
+     * Relations
+     */
+
+    @ManyToOne
+    @JoinColumn(name = "idClousurement")
+    private Clousurement clousurement;
 }
