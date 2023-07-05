@@ -11,13 +11,13 @@ public class ClousurementDto {
     private Integer IdUser;
     private Integer idTable;
     private BigDecimal tableTotal;
-    private LocalDateTime create;
+    private LocalDateTime dtCreate;
 
     public ClousurementDto(Clousurement clousurement){
         this.idClousurement = clousurement.getIdClousurement();
         this.IdUser = clousurement.getIdUser();
         this.idTable = clousurement.getIdTable();
         this.tableTotal = clousurement.getTableTotal();
-        this.create = clousurement.getCreate();
+        this.dtCreate = clousurement.getDtCreate();
     }
 }

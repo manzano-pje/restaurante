@@ -10,13 +10,13 @@ public class PaymentsDto {
     private Integer idClousement;
     private PaymentMethods PaymentMethod;
     private BigDecimal price;
-    private java.time.LocalDateTime create;
+    private java.time.LocalDateTime dtCreate;
 
     public PaymentsDto(Payments payments){
         this.idPayment = payments.getIdPayment();;
         this.idClousement = payments.getIdClousement();
         this.PaymentMethod = payments.getPaymentMethod();
         this.price = payments.getPrice();
-        this.create = payments.getCreate();
+        this.dtCreate = payments.getDtCreate();
     }
 }
