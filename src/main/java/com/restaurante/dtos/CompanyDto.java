@@ -25,9 +25,9 @@ public class CompanyDto {
     private String logo;
 
     public CompanyDto(Company company){
+        this.name = company.getName();
         this.cnpj = company.getCnpj();
         this.stateReg = company.getStateReg();
-        this.name = company.getName();
         this.adress = company.getAdress();
         this.neighborhood = company.getNeighborhood();
         this.city = company.getCity();
