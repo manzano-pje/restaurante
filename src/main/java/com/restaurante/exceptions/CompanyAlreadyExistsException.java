@@ -2,8 +2,8 @@ package com.restaurante.exceptions;
 
 import com.restaurante.middleware.ErrorResponse;
 
-public class CompanyExistException extends ErrorResponse {
-    public CompanyExistException() {
+public class CompanyAlreadyExistsException extends ErrorResponse {
+    public CompanyAlreadyExistsException() {
          super("Company already exists", 409);
     }
 }

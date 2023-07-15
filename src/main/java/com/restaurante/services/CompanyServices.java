@@ -1,17 +1,23 @@
 package com.restaurante.services;
 
 import com.restaurante.entities.Company;
-import com.restaurante.exceptions.CompanyExistException;
+import com.restaurante.exceptions.CompanyAlreadyExistsException;
 import com.restaurante.exceptions.CompanyNotFoundException;
 import com.restaurante.exceptions.InternalServerErrorException;
+import com.restaurante.exceptions.MethodNotSuportedException;
 import com.restaurante.record.CompanyRecord;
 import com.restaurante.repositories.CompanyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.MethodInvocationException;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,22 +26,26 @@ public class CompanyServices {
 
     private final CompanyRepository companyRepository;
 
-    public Company createCompany(CompanyRecord companyRecord) {
+    public ResponseEntity<String> create(CompanyRecord companyRecord) {
         try {
-            List<Company> companyList = companyRepository.findAll();
-            if (!companyList.isEmpty()) {
-                throw new CompanyExistException();
+            Optional<Company> optionalCompany = companyRepository.findByCnpj(companyRecord.cnpj());
+
+            if (optionalCompany.isPresent()) {
+                throw new CompanyAlreadyExistsException();
             }
             Company company = new Company();
-            BeanUtils.copyProperties(companyRecord, company);
+            BeanUtils.copyProperties(companyRecord,company);
             companyRepository.save(company);
-            return null;
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").
+                    buildAndExpand(company.getIdCompany()).toUri();
+            return ResponseEntity.created(uri).body("Company created.");
+
         }catch (DataAccessException err){
             throw new InternalServerErrorException();
         }
     }
 
-    public List<CompanyRecord> listCompany() {
+    public List<CompanyRecord> list() {
         try {
             List<Company> companyList = companyRepository.findAll();
             if (companyList.isEmpty()) {
@@ -47,34 +57,32 @@ public class CompanyServices {
         }
     }
 
-    public Company updateCompany(CompanyRecord companyRecord){
+    public void update(CompanyRecord companyRecord){
         try {
-            List<Company> companyList = companyRepository.findAll();
-            if (companyList.isEmpty()) {
-                throw new CompanyNotFoundException();
-            }
-            Company company = new Company();
+            Company company = companyRepository.findByCnpj(companyRecord.cnpj()).orElseThrow(CompanyNotFoundException::new);
+
             BeanUtils.copyProperties(companyRecord, company);
-            company.setIdCompany(companyList.get(0).getIdCompany());
-            company.setCnpj(companyList.get(0).getCnpj());
+            company.setIdCompany(company.getIdCompany());
+            company.setCnpj(company.getCnpj());
             companyRepository.save(company);
-            return null;
         }catch (DataAccessException err){
             throw new InternalServerErrorException();
         }
     }
 
-    public Company deleteCompany() {
+    public void delete(String cnpj) {
         try {
-            List<Company> companyList = companyRepository.findAll();
-            if (companyList.isEmpty()) {
+            Optional<Company> companyOptional = companyRepository.findByCnpj(cnpj);
+            if (companyOptional.isEmpty()) {
                 throw new CompanyNotFoundException();
             }
-            companyRepository.deleteById(companyList.get(0).getIdCompany());
-            return null;
+            try {
+                companyRepository.deleteById(companyOptional.get().getIdCompany());
+            }catch (MethodInvocationException e){
+                throw new MethodNotSuportedException();
+            }
         }catch (DataAccessException err){
             throw new InternalServerErrorException();
         }
-
     }
 }

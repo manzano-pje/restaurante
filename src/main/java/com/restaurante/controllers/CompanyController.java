@@ -3,10 +3,11 @@ package com.restaurante.controllers;
 import com.restaurante.record.CompanyRecord;
 import com.restaurante.services.CompanyServices;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -17,27 +18,32 @@ public class CompanyController {
     private final CompanyServices companyServices;
 
     @PostMapping
-    public ResponseEntity<Object> createCompany(@RequestBody CompanyRecord companyRecord) {
-        companyServices.createCompany(companyRecord);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Company created.");
+    public ResponseEntity<String> create(@RequestBody CompanyRecord companyRecord) {
+        companyServices.create(companyRecord);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").
+                buildAndExpand(companyRecord.id()).toUri();
+
+        // não está buscando id cadastrado
+
+        return ResponseEntity.created(uri).body("Company created.");
     }
 
     @GetMapping
-    public ResponseEntity<Object> listCompany(){
-        List<CompanyRecord> lista = companyServices.listCompany();
-        return ResponseEntity.status(HttpStatus.OK).body(lista);
+    public ResponseEntity<List<CompanyRecord>> list(){
+        List<CompanyRecord> lista = companyServices.list();
+        return ResponseEntity.ok().body(lista);
     }
 
     @PatchMapping
-    public ResponseEntity<Object> updateCompany(@RequestBody CompanyRecord companyRecord) {
-        companyServices.updateCompany(companyRecord);
-        return ResponseEntity.status(HttpStatus.OK).body("The company has been updated.");
+    public ResponseEntity<String> update(@RequestBody CompanyRecord companyRecord) {
+        companyServices.update(companyRecord);
+        return ResponseEntity.ok().body("The company has been updated.");
 
     }
 
-    @DeleteMapping
-    public ResponseEntity<Object> deleteCompany() {
-        companyServices.deleteCompany();
-        return ResponseEntity.status(HttpStatus.OK).body("Company is deleted.");
+    @DeleteMapping("/{cnpj}")
+    public ResponseEntity<String> deleteCompany(@PathVariable String cnpj) {
+        companyServices.delete(cnpj);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -3,6 +3,7 @@ package com.restaurante.record;
 import com.restaurante.entities.Company;
 
 public record CompanyRecord(
+        Integer id,
         String cnpj,
         String stateReg,
         String name,
@@ -17,7 +18,8 @@ public record CompanyRecord(
         String logo
 ){
     public CompanyRecord(Company company) {
-       this(company.getCnpj(),
+       this(company.getIdCompany(),
+            company.getCnpj(),
             company.getStateReg(),
             company.getName(),
             company.getAdress(),
