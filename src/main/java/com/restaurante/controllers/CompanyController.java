@@ -20,7 +20,7 @@ public class CompanyController {
     @PostMapping
     public ResponseEntity<String> create(@RequestBody CompanyRecord companyRecord) {
         companyServices.create(companyRecord);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idCompany}").
                 buildAndExpand(companyRecord.id()).toUri();
 
         // não está buscando id cadastrado

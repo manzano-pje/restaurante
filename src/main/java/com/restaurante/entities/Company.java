@@ -52,6 +52,4 @@ public class Company {
     @NonNull
     private String logo;
 
-
-
 }

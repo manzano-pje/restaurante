@@ -26,7 +26,7 @@ public class CompanyServices {
 
     private final CompanyRepository companyRepository;
 
-    public ResponseEntity<String> create(CompanyRecord companyRecord) {
+    public CompanyRecord create(CompanyRecord companyRecord) {
         try {
             Optional<Company> optionalCompany = companyRepository.findByCnpj(companyRecord.cnpj());
 
@@ -36,9 +36,7 @@ public class CompanyServices {
             Company company = new Company();
             BeanUtils.copyProperties(companyRecord,company);
             companyRepository.save(company);
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").
-                    buildAndExpand(company.getIdCompany()).toUri();
-            return ResponseEntity.created(uri).body("Company created.");
+            return companyRecord;
 
         }catch (DataAccessException err){
             throw new InternalServerErrorException();
