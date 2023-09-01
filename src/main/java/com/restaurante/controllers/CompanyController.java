@@ -1,6 +1,6 @@
 package com.restaurante.controllers;
 
-import com.restaurante.record.CompanyRecord;
+import com.restaurante.dtos.CompanyDto;
 import com.restaurante.services.CompanyServices;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,31 +12,28 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v01/company")
+@RequestMapping("/v1/company")
 public class CompanyController {
 
     private final CompanyServices companyServices;
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody CompanyRecord companyRecord) {
-        companyServices.create(companyRecord);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idCompany}").
-                buildAndExpand(companyRecord.id()).toUri();
-
-        // não está buscando id cadastrado
-
+    public ResponseEntity<Object> create(@RequestBody CompanyDto companyDto) {
+        CompanyDto retorno = companyServices.create(companyDto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").
+                buildAndExpand(retorno.getId()).toUri();
         return ResponseEntity.created(uri).body("Company created.");
     }
 
     @GetMapping
-    public ResponseEntity<List<CompanyRecord>> list(){
-        List<CompanyRecord> lista = companyServices.list();
+    public ResponseEntity<List<CompanyDto>> list(){
+        List<CompanyDto> lista = companyServices.list();
         return ResponseEntity.ok().body(lista);
     }
 
     @PatchMapping
-    public ResponseEntity<String> update(@RequestBody CompanyRecord companyRecord) {
-        companyServices.update(companyRecord);
+    public ResponseEntity<String> update(@RequestBody CompanyDto companyDto) {
+        companyServices.update(companyDto);
         return ResponseEntity.ok().body("The company has been updated.");
 
     }

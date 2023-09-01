@@ -1,21 +1,20 @@
 package com.restaurante.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 @Table(name = "tb_company")
 public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCompany;
+    private int id;
 
     @NonNull
     private String cnpj;
@@ -48,8 +47,5 @@ public class Company {
 
     @NonNull
     private String email;
-
-    @NonNull
-    private String logo;
 
 }

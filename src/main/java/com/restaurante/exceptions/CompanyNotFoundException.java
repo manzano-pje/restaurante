@@ -1,6 +1,6 @@
 package com.restaurante.exceptions;
 
-import com.restaurante.middleware.ErrorResponse;
+import com.restaurante.exceptions.ErrorResponse;
 
 public class CompanyNotFoundException extends ErrorResponse {
     public CompanyNotFoundException(){

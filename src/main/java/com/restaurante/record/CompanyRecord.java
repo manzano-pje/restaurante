@@ -14,22 +14,21 @@ public record CompanyRecord(
         String zipCode,
         String phone,
         String cellPhone,
-        String email,
-        String logo
+        String email
 ){
-    public CompanyRecord(Company company) {
-       this(company.getIdCompany(),
-            company.getCnpj(),
-            company.getStateReg(),
-            company.getName(),
-            company.getAdress(),
-            company.getNeighborhood(),
-            company.getCity(),
-            company.getUf(),
-            company.getZipCode(),
-            company.getPhone(),
-            company.getCellPhone(),
-            company.getEmail(),
-            company.getLogo());
-    }
+//    public CompanyRecord(Company company) {
+//       this(company.getId(),
+//            company.getCnpj(),
+//            company.getStateReg(),
+//            company.getName(),
+//            company.getAdress(),
+//            company.getNeighborhood(),
+//            company.getCity(),
+//            company.getUf(),
+//            company.getZipCode(),
+//            company.getPhone(),
+//            company.getCellPhone(),
+//            company.getEmail()
+//       );
+//    }
 }

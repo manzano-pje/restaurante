@@ -1,21 +1,19 @@
 package com.restaurante.services;
 
+import com.restaurante.dtos.CompanyDto;
 import com.restaurante.entities.Company;
 import com.restaurante.exceptions.CompanyAlreadyExistsException;
 import com.restaurante.exceptions.CompanyNotFoundException;
 import com.restaurante.exceptions.InternalServerErrorException;
 import com.restaurante.exceptions.MethodNotSuportedException;
-import com.restaurante.record.CompanyRecord;
 import com.restaurante.repositories.CompanyRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.MethodInvocationException;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,42 +23,44 @@ import java.util.stream.Collectors;
 public class CompanyServices {
 
     private final CompanyRepository companyRepository;
+    private final ModelMapper mapper;
 
-    public CompanyRecord create(CompanyRecord companyRecord) {
+    public CompanyDto create(CompanyDto companyDto) {
         try {
-            Optional<Company> optionalCompany = companyRepository.findByCnpj(companyRecord.cnpj());
-
-            if (optionalCompany.isPresent()) {
+            Long count = companyRepository.count();
+            if (count > 0) {
                 throw new CompanyAlreadyExistsException();
             }
-            Company company = new Company();
-            BeanUtils.copyProperties(companyRecord,company);
+
+            Company company = mapper.map(companyDto, Company.class);
             companyRepository.save(company);
-            return companyRecord;
+            CompanyDto retorno = mapper.map(company, CompanyDto.class);
+            return  retorno;
 
         }catch (DataAccessException err){
             throw new InternalServerErrorException();
         }
     }
 
-    public List<CompanyRecord> list() {
+    public List<CompanyDto> list() {
         try {
             List<Company> companyList = companyRepository.findAll();
             if (companyList.isEmpty()) {
                 throw new CompanyNotFoundException();
             }
-            return (companyList.stream().map(CompanyRecord::new).collect(Collectors.toList()));
+            return companyList.stream().map(CompanyDto::new).collect(Collectors.toList());
         }catch (DataAccessException err){
             throw new InternalServerErrorException();
         }
     }
 
-    public void update(CompanyRecord companyRecord){
+    public void update(CompanyDto companyDto){
         try {
-            Company company = companyRepository.findByCnpj(companyRecord.cnpj()).orElseThrow(CompanyNotFoundException::new);
+            Optional<Company> companyOptional = companyRepository.findByCnpj("13647699000128");
 
-            BeanUtils.copyProperties(companyRecord, company);
-            company.setIdCompany(company.getIdCompany());
+            Company company = new Company();
+            BeanUtils.copyProperties(companyDto, company);
+            company.setId(company.getId());
             company.setCnpj(company.getCnpj());
             companyRepository.save(company);
         }catch (DataAccessException err){
@@ -75,7 +75,7 @@ public class CompanyServices {
                 throw new CompanyNotFoundException();
             }
             try {
-                companyRepository.deleteById(companyOptional.get().getIdCompany());
+                companyRepository.deleteById(companyOptional.get().getId());
             }catch (MethodInvocationException e){
                 throw new MethodNotSuportedException();
             }
