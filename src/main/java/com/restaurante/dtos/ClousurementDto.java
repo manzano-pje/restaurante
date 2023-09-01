@@ -1,10 +1,16 @@
 package com.restaurante.dtos;
 
 import com.restaurante.entities.Clousurement;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class ClousurementDto {
 
     private Integer idClousurement;

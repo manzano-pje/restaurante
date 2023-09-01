@@ -1,8 +1,6 @@
 package com.restaurante.dtos;
 
 import com.restaurante.entities.Users;
-import lombok.NonNull;
-
 import java.time.LocalDate;
 
 public class UsersDto {
