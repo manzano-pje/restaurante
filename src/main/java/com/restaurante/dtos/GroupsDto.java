@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class GroupsDto {
 
+    private long idGroup;
     private String name;
 
     public GroupsDto(Groups groups){
-
+        this.idGroup = groups.getIdGroup();
         this.name = groups.getName();
     }
+
 }
