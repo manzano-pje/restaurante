@@ -1,10 +1,10 @@
-package com.restaurante.exceptions;
+package com.restaurante.exceptions.company;
 
 import com.restaurante.exceptions.ErrorResponse;
 
 public class CompanyAlreadyExistsException extends ErrorResponse {
     public CompanyAlreadyExistsException() {
 
-        super("Company already exists", 409);
+        super("There is already a registered company.", 409);
     }
 }

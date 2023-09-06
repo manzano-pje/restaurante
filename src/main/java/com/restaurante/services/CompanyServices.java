@@ -2,8 +2,8 @@ package com.restaurante.services;
 
 import com.restaurante.dtos.CompanyDto;
 import com.restaurante.entities.Company;
-import com.restaurante.exceptions.CompanyAlreadyExistsException;
-import com.restaurante.exceptions.CompanyNotFoundException;
+import com.restaurante.exceptions.company.CompanyAlreadyExistsException;
+import com.restaurante.exceptions.company.CompanyNotFoundException;
 import com.restaurante.exceptions.InternalServerErrorException;
 import com.restaurante.exceptions.MethodNotSuportedException;
 import com.restaurante.repositories.CompanyRepository;
@@ -31,7 +31,6 @@ public class CompanyServices {
             if (count > 0) {
                 throw new CompanyAlreadyExistsException();
             }
-
             Company company = mapper.map(companyDto, Company.class);
             companyRepository.save(company);
             CompanyDto retorno = mapper.map(company, CompanyDto.class);
@@ -56,11 +55,12 @@ public class CompanyServices {
 
     public void update(CompanyDto companyDto){
         try {
-            Optional<Company> companyOptional = companyRepository.findByCnpj("13647699000128");
+            Optional<Company> companyOptional = companyRepository.findByCnpj(companyDto.getCnpj());
 
-            Company company = new Company();
-            BeanUtils.copyProperties(companyDto, company);
-            company.setId(company.getId());
+//            Company company = new Company();
+//            BeanUtils.copyProperties(companyDto, company);
+            Company company = mapper.map(companyDto, Company.class);
+            company.setId(companyOptional.get().getId());
             company.setCnpj(company.getCnpj());
             companyRepository.save(company);
         }catch (DataAccessException err){
